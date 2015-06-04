@@ -1,0 +1,10 @@
+{
+	"serviceUrl":"http://localhost/github/apio",
+	"endpoints": {
+		"status": {
+			"method": "get",
+			"endpoint": "/status",
+			"parameters": []
+		}
+	}
+}
