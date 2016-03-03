@@ -115,7 +115,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="request">
-							<div class="form-group parameter">
+							<div class="form-group parameter parameter-version">
 								<div class="row">
 									<div class="col-md-5">
 										<input type="text" class="form-control" readonly="readonly" value="Version">
@@ -125,7 +125,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group parameter">
+							<div class="form-group parameter parameter-token">
 								<div class="row">
 									<div class="col-md-5">
 										<input type="text" class="form-control" readonly="readonly" value="Token">
@@ -178,7 +178,7 @@
 				</p>
 				<p>
 					<small>Version 1.0</small><br>
-					<small>Copyright &copy; 2014 The WebChimp.</small><br>
+					<small>Copyright &copy; 2016 The WebChimp.</small><br>
 					<small>All rights reserved.</small>
 				</p>
 				<p>Licensed under the MIT License</p>
@@ -192,6 +192,7 @@
 		<script type="text/javascript">
 			var templates = {};
 			var app = {
+				flags: null,
 				apiUrl: 'http://localhost/apio/api/',
 				apiCall: function(options) {
 					var obj = this,
@@ -204,9 +205,12 @@
 							apiVersion: '1.0',
 							success: $.noop,
 							error: $.noop
-						}, options);
+						}, options)
+						flags = $.extend(true, {
+							version: true
+						}, app.flags);
 					$.ajax({
-						url: opts.apiUrl + '/' + opts.apiVersion + opts.endpoint + (opts.apiToken ? '/?token=' + opts.apiToken : ''),
+						url: opts.apiUrl + (flags.version ? '/' + opts.apiVersion : '') + opts.endpoint + (flags.token && opts.apiToken ? '/?token=' + opts.apiToken : ''),
 						type: opts.method,
 						data: opts.data,
 						success: function(response, status, xhr) {
@@ -226,7 +230,8 @@
 					presets = [];
 				presetsMenu.append('<li><a href="#">No presets</a></li>');
 				$.getJSON('api.json', function(json){
-					app.apiUrl = json.serviceUrl;
+					app.apiUrl = json.serviceUrl.replace(/\/+$/, '');
+					app.flags = json.flags;
 					presets = json.endpoints;
 					if (presets) {
 						presetsMenu.empty();
@@ -235,6 +240,13 @@
 							presetsMenu.append(li);
 							li.data('preset', preset);
 						});
+					}
+					// Hide fields that are not required
+					if (! app.flags.token ) {
+						$('.parameter-version').hide();
+					}
+					if (! app.flags.version ) {
+						$('.parameter-token').hide();
 					}
 				});
 				$('[data-popup=inline]').magnificPopup({ type: 'inline' });
@@ -273,7 +285,7 @@
 							button.prop({ disabled: false }).find('span').text('Execute request');
 							alert.attr('class', 'alert alert-success');
 							alert.text(xhr.status + ': ' + xhr.statusText);
-							headers.text( xhr.getAllResponseHeaders() );
+							headers.text( method.toUpperCase() + ' ' + app.apiUrl + endpoint + '\n' + xhr.getAllResponseHeaders() );
 							if ( xhr.getResponseHeader('content-type') == 'application/json' ) {
 								body.text( JSON.stringify($.parseJSON(xhr.responseText), null, 2) );
 							} else {

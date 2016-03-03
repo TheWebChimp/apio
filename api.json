@@ -1,5 +1,9 @@
 {
 	"serviceUrl":"http://localhost/github/apio",
+	"flags":{
+		"version": true,
+		"token": true
+	},
 	"endpoints": {
 		"status": {
 			"method": "get",
