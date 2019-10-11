@@ -5,6 +5,7 @@ A simple console for API testing
 ### Credits ###
 
 **Original coder:** biohzrdmx [&lt;github.com/biohzrdmx&gt;](http://github.com/biohzrdmx)
+
 **Lead coder:** webchimp [&lt;github.com/webchimp&gt;](http://github.com/webchimp)
 
 ## License ##
