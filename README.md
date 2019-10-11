@@ -4,10 +4,11 @@ A simple console for API testing
 
 ### Credits ###
 
-**Lead coder:** biohzrdmx [&lt;github.com/biohzrdmx&gt;](http://github.com/biohzrdmx)
+**Original coder:** biohzrdmx [&lt;github.com/biohzrdmx&gt;](http://github.com/biohzrdmx)
+**Lead coder:** webchimp [&lt;github.com/webchimp&gt;](http://github.com/webchimp)
 
 ## License ##
-Copyright &copy; 2015 biohzrdmx
+Copyright &copy; 2019 chimp
 
 **MIT License for non-commercial use**
 
